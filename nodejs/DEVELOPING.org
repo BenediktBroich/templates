@@ -1,0 +1,35 @@
+* NodeJS template
+
+* Create node project
+
+#+begin_src bash
+  # init
+  git init
+  npm init
+  nix flake init -t github:BenediktBroich/templates#nodejs
+
+  # dev shell
+  nix develop
+
+  # convert package.json to nix
+  node2nix -i package.json
+
+  # convert package-lock.json to nix
+  node2nix -l package-lock.json
+
+  # leload your nix shell
+  exit
+
+  # repeat when you change you package.json or package-lock.json
+
+  # update you nix lock file and commit it
+  nix flake update --commit-lock-file
+
+  # test the build
+  nix build
+  ls results
+#+end_src
+
+* Recommendation
+
+  - [[https://myme.no/posts/2022-01-16-nixos-the-ultimate-dev-environment.html][node2nix]]

@@ -1,0 +1,71 @@
+* NixOS/templates
+A repository for generating Nix Flake for projects in different
+languages.
+
+** Better template repository
+
+ - [[https://github.com/NixOS/nixpkgs][nixpkgs]]
+ - [[https://github.com/NixOS/templates][NixOS]]
+ - [[https://github.com/nix-community/templates][Nix community]]
+ - ...
+
+** Dependencies
+  - [[https://github.com/NixOS/nix][Nix]] and enable [[https://nixos.wiki/wiki/Flakes][Nix Flakes]]
+
+** Supported Templates
+
+#+begin_src bash :results output
+  nix flake show "github:BenediktBroich/templates-2" --no-write-lock-file
+#+end_src
+
+#+RESULTS:
+github:BenediktBroich/templates-2/b50d6b7fc492e40dc540c36fe42ffc0aaad5065c
+├───defaultTemplate: template: Hello World template.
+└───templates
+    ├───direnv: template: Direnv template.
+    ├───hello: template: Hello World template.
+    ├───nixos-vm: template: NixOS VM (nixos-shell) template.
+    └───nodejs: template: Nodejs application template.
+
+*** Upcoming 
+  - Tomcat
+
+
+** Usage
+*** Initialize vm
+
+#+begin_example
+  git init
+  nix flake init -t github:NixOS/templates#direnv
+  nix flake init -t github:NixOS/templates#nixos-vm
+#+end_example
+
+** Start a Virtual Machine
+The NixOS virtual machine contains all services needed to run the application. 
+ 
+#+begin_example
+  nix-shell -p nixos-shell
+  nixos-shell
+#+end_example
+
+Now you can Login as =root=. Direnv will automatically load =nix shell=
+
+*** Initialize new project
+
+#+begin_example
+  nix flake init -t github:NixOS/templates#nodejs
+#+end_example
+
+** Available default commands
+
+#+caption: Commands, Files and Description
+| Command              | File        | Description                                     |
+|----------------------+-------------+-------------------------------------------------|
+| nixos-shell          | vm.nix      | NixOS Virtual Machine and services.             |
+| nix shell            | shell.nix   | Development dependencies (loaded by direnv).    |
+|                      | default.nix | Nixpkgs derivation (package with dependencies). |
+| nix build            | flake.nix   | Flake definition for reproducible builds.       |
+|                      | lock.nix    | Lock-file for reproducible builds.              |
+| nix build docker.nix | docker.nix  | Dockerize application (if available).           |
+
+#+include: "./nodejs/DEVELOPING.org"

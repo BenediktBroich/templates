@@ -13,8 +13,7 @@
         };
         overlay = (final: prev: {
           nodejsApp = (final.callPackage ./. { } // {
-            # server = final.callPackage ./server { };
-            frontend = final.callPackage ./. { };
+            nodeProject = final.callPackage ./. { };
           });
         });
 
@@ -34,19 +33,15 @@
         apps = { dev = pkgs.nodejsApp.dev; };
         defaultApp = apps.dev;
         packages = {
-          image = pkgs.nodejsApp.image;
-          # server = pkgs.nodejsApp.server.server;
-          static = pkgs.nodejsApp.frontend.static;
+          static = pkgs.nodejsApp.nodeProject.static;
         };
         defaultPackage = packages.image;
         checks = packages;
         devShell = mergeEnvs pkgs (with devShells; [
-          frontend
-          # server
+          nodeProject
         ]);
         devShells = {
-          frontend = pkgs.nodejsApp.frontend.shell;
-          # server = pkgs.nodejsApp.server.shell;
+          nodeProject = pkgs.nodejsApp.nodeProject.shell;
         };
       });
 }
